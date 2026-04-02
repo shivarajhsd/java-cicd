@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'us-east-1'
-        ECR_REPO   = '218137097139.dkr.ecr.us-east-1.amazonaws.com/java-frontend-app'
+        AWS_REGION = 'ap-south-1'
+        ECR_REPO   = '442004016281.dkr.ecr.ap-south-1.amazonaws.com/demo'
     }
 
     tools {
@@ -14,14 +14,14 @@ pipeline {
 
         stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/vtricksshiva/java-cicd.git'
+                git branch: 'main', credentialsId: 'git_id', url: 'https://github.com/shivarajhsd/java-cicd'
             }
         }
 
         stage('Sonar Scan') {
             steps {
                 script {
-                    withSonarQubeEnv('sonarqube') {
+                    withSonarQubeEnv('sonar') {
                         sh "mvn clean verify sonar:sonar -Dsonar.projectKey=sonar-scan-with-jenkins -Dsonar.projectName='sonar-scan-with-jenkins'"
                     }
                 }
